@@ -1,0 +1,49 @@
+Thank you for beta-testing MakeMKV. Please see viewtopic.php?f=5&t=1054 for information about latest version.
+
+The linux release includes full source code for MakeMKV GUI, libmakemkv multiplexer library and libdriveio MMC drive interrogation library. Please use this forum for an up to date download and setup instructions. You need to follow the steps outlined below to compile and install the application and all libraries.
+Download both binary and source packages:
+http://www.makemkv.com/download/makemkv-bin-1.9.9.tar.gz
+http://www.makemkv.com/download/makemkv-oss-1.9.9.tar.gz
+
+Make sure you have all required tools and libraries installed. You'll need GNU compiler and linker and header and library files for following libraries: glibc, openssl-0.9.8, zlib, expat, libavcodec, qt4 or qt5. You may use the following command to install all prerequisites on debian-based system like ubuntu:
+Code:
+sudo apt-get install build-essential pkg-config libc6-dev libssl-dev libexpat1-dev libavcodec-dev libgl1-mesa-dev libqt4-dev
+
+Unpack both packages and starting from source package do the following steps:
+For makemkv-oss package:
+Code:
+./configure
+make
+sudo make install
+
+For makemkv-bin package:
+Code:
+make
+sudo make install
+The application will be installed as "/usr/bin/makemkv".
+
+OPTIONAL: Building with latest libavcodec
+Starting with version 1.8.6 MakeMKV no longer uses ffmpeg application, but links directly to libavcodec. Please note that most distributions ship a very outdated version of libavcodec (either from ffmpeg or libav projects). You will have to compile a recent ffmpeg (at least 2.0) if you need a FLAC encoder that handles 24-bit audio. Also you will have to enable libfdk-aac support in ffmpeg in order to use AAC encoder.Here are generic instructions for building makemkv-oss with latest ffmpeg:
+- download ffmpeg tarball from http://ffmpeg.org/download.html
+- configure and build ffmpeg:
+Code:
+./configure --prefix=/tmp/ffmpeg --enable-static --disable-shared --enable-pic --disable-yasm
+or with libfdk-aac support
+Code:
+./configure --prefix=/tmp/ffmpeg --enable-static --disable-shared --enable-pic --disable-yasm --enable-libfdk-aac
+followed by
+Code:
+make install
+
+- configure and build makemkv-oss:
+Code:
+PKG_CONFIG_PATH=/tmp/ffmpeg/lib/pkgconfig ./configure
+make
+sudo make install
+
+- remove temporary ffmpeg files:
+Code:
+rm -rf /tmp/ffmpeg
+
+
+Please share your experience in this forum.

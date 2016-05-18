@@ -1,0 +1,28 @@
+LIBRARY libmakemkv
+EXPORTS
+  set_world=set_world
+  MkvCreateFile=MkvCreateFile
+  ffcodec_ff_mlp_read_major_sync
+  ffcodec_ff_mlp_get_audio_info
+  ffcodec_ff_mpegaudio_decode_header
+  ffcodec_ff_mpa_check_header
+  ffcodec_ffm_init_context_r
+  ffcodec_ffm_init_context_w
+  ffcodec_ffm_read_header
+  ffcodec_ffm_read_packet_header
+  ffcodec_ffm_read_packet_data
+  ffcodec_ffm_write_header
+  ffcodec_ffm_write_packet
+  ffcodec_ffm_write_trailer
+  HTTP_Download
+  TPDLLIH
+  getopt_long=getopt_long
+  getopt_get_optind=getopt_get_optind
+  getopt_get_optarg=getopt_get_optarg
+
+
+
+
+
+  
+  

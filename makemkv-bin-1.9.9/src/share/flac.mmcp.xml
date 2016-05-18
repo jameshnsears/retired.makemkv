@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<profile>
+    <!-- profile name - Default -->
+    <name lang="eng">FLAC</name>
+
+    <!-- Common MKV flags -->
+    <mkvSettings 
+        ignoreForcedSubtitlesFlag="true"
+        useISO639Type2T="false"
+        setFirstAudioTrackAsDefault="true"
+        setFirstSubtitleTrackAsDefault="true"
+        setFirstForcedSubtitleTrackAsDefault="true"
+        insertFirstChapter00IfMissing="true"
+    />
+
+    <!-- Settings overridable in preferences -->
+    <profileSettings
+        app_DefaultSelectionString="-sel:all,+sel:(favlang|nolang|single),+sel:lossless,-sel:(havemulti|havelossless),-sel:mvcvideo,=100:all,-10:favlang"
+    />
+
+    <!-- Output formats currently supported by MakeMKV -->
+    <outputSettings name="copy" outputFormat="directCopy">
+        <description lang="eng">Copy track as is</description>
+        <description lang="ger">Track 1:1 kopieren</description>
+    </outputSettings>
+
+    <outputSettings name="lpcm" outputFormat="LPCM-raw">
+        <description lang="eng">Save as raw LPCM</description>
+        <description lang="ger">Als RAW LPCM speichern</description>
+    </outputSettings>
+
+    <outputSettings name="wavex" outputFormat="LPCM-wavex">
+        <description lang="eng">Save as LPCM in WAV container</description>
+        <description lang="ger">Als LPCM im WAV-Container speichern</description>
+    </outputSettings>
+
+    <outputSettings name="flac-best" outputFormat="FLAC">
+        <description lang="eng">Save as FLAC (best compression)</description>
+        <description lang="ger">Als FLAC speichern (höchste Komprimierungsstufe)</description>
+        <extraArgs>-compression_level 12</extraArgs>
+    </outputSettings>
+
+    <outputSettings name="flac-fast" outputFormat="FLAC">
+        <description lang="eng">Save as FLAC (fast compression)</description>
+        <extraArgs>-compression_level 5</extraArgs>
+    </outputSettings>
+
+    <!-- Default rule - copy as is -->
+    <trackSettings input="default">
+        <output outputSettingsName="copy" 
+                defaultSelection="$app_DefaultSelectionString">
+        </output>
+    </trackSettings>
+
+    <!-- Save LPCM mono or stereo as FLAC -->
+    <trackSettings input="LPCM-stereo">
+        <output outputSettingsName="flac-fast"
+                defaultSelection="$app_DefaultSelectionString">
+        </output>
+    </trackSettings>
+
+    <!-- Save multi-channel LPCM as FLAC -->
+    <trackSettings input="LPCM-multi">
+        <output outputSettingsName="flac-fast"
+                defaultSelection="$app_DefaultSelectionString,+sel:true">
+        </output>
+    </trackSettings>
+
+    <!-- Save TRUEHD as FLAC -->
+    <trackSettings input="TRUEHD-stereo">
+        <output outputSettingsName="flac-fast"
+                defaultSelection="$app_DefaultSelectionString,+sel:true">
+        </output>
+    </trackSettings>
+    <trackSettings input="TRUEHD-multi">
+        <output outputSettingsName="flac-fast"
+                defaultSelection="$app_DefaultSelectionString,+sel:true">
+        </output>
+    </trackSettings>
+    <trackSettings input="MLP-stereo">
+        <output outputSettingsName="flac-fast"
+                defaultSelection="$app_DefaultSelectionString,+sel:true">
+        </output>
+    </trackSettings>
+    <trackSettings input="MLP-multi">
+        <output outputSettingsName="flac-fast"
+                defaultSelection="$app_DefaultSelectionString,+sel:true">
+        </output>
+    </trackSettings>
+
+    <!-- Save DTS-HD as FLAC -->
+    <trackSettings input="DTSHDMA-stereo">
+        <output outputSettingsName="flac-fast"
+                defaultSelection="$app_DefaultSelectionString,+sel:true">
+        </output>
+    </trackSettings>
+    <trackSettings input="DTSHDMA-multi">
+        <output outputSettingsName="flac-fast"
+                defaultSelection="$app_DefaultSelectionString,+sel:true">
+        </output>
+    </trackSettings>
+
+    <!-- Save DTS-HD LBR (low quality) as FLAC (just to decode) -->
+    <trackSettings input="DTSHDLBR-stereo">
+        <output outputSettingsName="flac-fast"
+                defaultSelection="$app_DefaultSelectionString">
+        </output>
+    </trackSettings>
+    <trackSettings input="DTSHDLBR-multi">
+        <output outputSettingsName="flac-fast"
+                defaultSelection="$app_DefaultSelectionString">
+        </output>
+    </trackSettings>
+
+</profile>

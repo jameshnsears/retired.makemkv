@@ -1,0 +1,28 @@
+{ global:
+  mmbd_create_context;
+  mmbd_destroy_context;
+  mmbd_get_version_string;
+  mmbd_open;
+  mmbd_close;
+  mmbd_get_mkb_version;
+  mmbd_get_disc_id;
+  mmbd_decrypt_unit;
+  aacs_get_version;
+  aacs_open;
+  aacs_open2;
+  aacs_close;
+  aacs_select_title;
+  aacs_decrypt_unit;
+  aacs_get_mkb_version;
+  aacs_get_disc_id;
+  aacs_get_vid;
+  aacs_get_pmsn;
+  aacs_get_hrl;
+  aacs_get_drl;
+  bdplus_init;
+  bdplus_free;
+  bdplus_set_title;
+  bdplus_seek;
+  bdplus_fixup;
+  local: *;
+};

@@ -1,0 +1,50 @@
+#define AP_KEY_STRING_LEN 68
+
+
+
+// PLEASE, do not copy&paste this function into keygen code :)
+static inline bool KeyCheckStringCrc(const utf16_t* str)
+{
+    size_t len = utf16len(str);
+
+    if (len != AP_KEY_STRING_LEN )
+    {
+        return false;
+    }
+
+    uint16_t crc=0;
+
+    for (unsigned int i=0;i<(AP_KEY_STRING_LEN-2);i++)
+    {
+        if ( (i>=2) && (KeyIsValidChar(str[i])==false)) return false;
+
+        crc += ((uint8_t)str[i]) & 0x7f;
+
+        crc = (uint16_t) (((crc*(11+i)))%4093);
+    }
+
+    if (KeyBitsToChar( (uint8_t) (crc&0x3f) ) != str[AP_KEY_STRING_LEN-2]) return false;
+    if (KeyBitsToChar( (uint8_t) ((crc>>6)&0x3f)) != str[AP_KEY_STRING_LEN-1]) return false;
+
+    return true;
+}
+
+
+static inline char KeyBitsToChar(uint8_t c)
+{
+    if (c==0) return '_';
+    if (c<11) return '0' + (c-1);
+    if (c<38) return '@'+(c-11);
+    return 'a'+(c-38);
+}
+
+static inline uint8_t KeyIsValidChar(utf16_t c)
+{
+    if (c=='_') return true;
+    if ( (c>='0') && (c<='9') ) return true;
+    if ( (c>='@') && (c<='Z') ) return true;
+    if ( (c>='a') && (c<='z') ) return true;
+    return false;
+}
+
+

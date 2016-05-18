@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<profile>
+    <!-- profile name -->
+    <name lang="eng">AAC-stereo</name>
+
+    <!-- Common MKV flags -->
+    <mkvSettings 
+        ignoreForcedSubtitlesFlag="true"
+        useISO639Type2T="false"
+        setFirstAudioTrackAsDefault="true"
+        setFirstSubtitleTrackAsDefault="true"
+        setFirstForcedSubtitleTrackAsDefault="true"
+        insertFirstChapter00IfMissing="true"
+    />
+
+    <!-- Settings overridable in preferences -->
+    <profileSettings
+        app_DefaultSelectionString="-sel:all,+sel:(favlang|nolang|single),+sel:lossless,-sel:(havemulti|havelossless),-sel:mvcvideo,=100:all,-10:favlang"
+    />
+
+    <!-- Output formats -->
+    <outputSettings name="copy" outputFormat="directCopy">
+        <description lang="eng">Copy track as is</description>
+        <description lang="ger">Track 1:1 kopieren</description>
+    </outputSettings>
+
+    <outputSettings name="aac" outputFormat="AAC">
+        <description lang="eng">Save as Mpeg-4 AAC-LC</description>
+        <extraArgs>codec=libfdk_aac profile=LC</extraArgs>
+        <extraArgs>afterburner=1</extraArgs>
+    </outputSettings>
+
+    <outputSettings name="he-aac" outputFormat="AAC">
+        <description lang="eng">Save as Mpeg-4 HE-AAC</description>
+        <extraArgs>codec=libfdk_aac profile=HE-AAC signaling=explicit_sbr</extraArgs>
+        <extraArgs>afterburner=1</extraArgs>
+    </outputSettings>
+
+    <!-- HE-AACv2 - stereo inputs only -->
+    <outputSettings name="he-aacv2" outputFormat="AAC">
+        <description lang="eng">Save as Mpeg-4 HE-AACv2</description>
+        <extraArgs>codec=libfdk_aac profile=HE-AACv2 signaling=explicit_hierarchical</extraArgs>
+        <extraArgs>afterburner=1</extraArgs>
+    </outputSettings>
+
+    <outputSettings name="aac-gpl" outputFormat="AAC">
+        <description lang="eng">Save as Mpeg-4 AAC-LC (ffmpeg encoder)</description>
+        <extraArgs>codec=aac -strict -2</extraArgs>
+        <extraArgs>aac_coder=twoloop</extraArgs>
+    </outputSettings>
+
+    <!-- Audio downmix settings -->
+    <audioMixSettings name="stereo16"
+        outputBPS="16"
+        outputChannelLayout="stereo"
+        mix="DolbyPrologic2">
+        <description lang="eng">Stereo 16-bit Dolby PrologicII downmix</description>
+    </audioMixSettings>
+
+    <audioMixSettings name="stereo16raw"
+        outputBPS="16"
+        outputChannelLayout="stereo"
+        centerMixLevel="-3dB"
+        surroundMixLevel="-6dB"
+        lfeMixLevel="0">
+        <description lang="eng">Stereo 16-bit downmix</description>
+    </audioMixSettings>
+
+    <!-- Default rule - copy as is -->
+    <trackSettings input="default">
+        <output outputSettingsName="copy" 
+                defaultSelection="$app_DefaultSelectionString">
+        </output>
+    </trackSettings>
+
+    <!-- For all audio tracks keep the original track
+         and produce additional AAC stereo downmix -->
+
+    <trackSettings input="LPCM-stereo">
+        <output outputSettingsName="copy"
+                defaultSelection="$app_DefaultSelectionString,-sel:all">
+        </output>
+        <output outputSettingsName="aac"
+                defaultSelection="$app_DefaultSelectionString">
+        </output>
+    </trackSettings>
+    <trackSettings input="LPCM-multi">
+        <output outputSettingsName="copy"
+                defaultSelection="$app_DefaultSelectionString,-sel:all">
+        </output>
+        <output outputSettingsName="aac"
+                defaultSelection="$app_DefaultSelectionString"
+                audioMix="stereo16">
+        </output>
+    </trackSettings>
+
+    <trackSettings input="TRUEHD-stereo">
+        <output outputSettingsName="copy"
+                defaultSelection="$app_DefaultSelectionString,-sel:all">
+        </output>
+        <output outputSettingsName="aac"
+                defaultSelection="$app_DefaultSelectionString">
+        </output>
+    </trackSettings>
+    <trackSettings input="TRUEHD-multi">
+        <output outputSettingsName="copy"
+                defaultSelection="$app_DefaultSelectionString,-sel:all">
+        </output>
+        <output outputSettingsName="aac"
+                defaultSelection="$app_DefaultSelectionString"
+                audioMix="stereo16">
+        </output>
+    </trackSettings>
+    <trackSettings input="MLP-stereo">
+        <output outputSettingsName="copy"
+                defaultSelection="$app_DefaultSelectionString,-sel:all">
+        </output>
+        <output outputSettingsName="aac"
+                defaultSelection="$app_DefaultSelectionString">
+        </output>
+    </trackSettings>
+    <trackSettings input="MLP-multi">
+        <output outputSettingsName="copy"
+                defaultSelection="$app_DefaultSelectionString,-sel:all">
+        </output>
+        <output outputSettingsName="aac"
+                defaultSelection="$app_DefaultSelectionString"
+                audioMix="stereo16">
+        </output>
+    </trackSettings>
+
+    <trackSettings input="DTSHDMA-stereo">
+        <output outputSettingsName="copy"
+                defaultSelection="$app_DefaultSelectionString,-sel:all">
+        </output>
+        <output outputSettingsName="aac"
+                defaultSelection="$app_DefaultSelectionString">
+        </output>
+    </trackSettings>
+    <trackSettings input="DTSHDMA-multi">
+        <output outputSettingsName="copy"
+                defaultSelection="$app_DefaultSelectionString,-sel:all">
+        </output>
+        <output outputSettingsName="aac"
+                defaultSelection="$app_DefaultSelectionString"
+                audioMix="stereo16">
+        </output>
+    </trackSettings>
+
+    <!-- Save DTS-HD LBR (low quality) as AAC (just to decode),
+         do not keep original track -->
+    <trackSettings input="DTSHDLBR-stereo">
+        <output outputSettingsName="aac"
+                defaultSelection="$app_DefaultSelectionString">
+        </output>
+    </trackSettings>
+    <trackSettings input="DTSHDLBR-multi">
+        <output outputSettingsName="aac"
+                defaultSelection="$app_DefaultSelectionString"
+                audioMix="stereo16">
+        </output>
+    </trackSettings>
+
+    <trackSettings input="DTS-stereo">
+        <output outputSettingsName="copy"
+                defaultSelection="$app_DefaultSelectionString,-sel:all">
+        </output>
+        <output outputSettingsName="aac"
+                defaultSelection="$app_DefaultSelectionString">
+        </output>
+    </trackSettings>
+    <trackSettings input="DTS-multi">
+        <output outputSettingsName="copy"
+                defaultSelection="$app_DefaultSelectionString,-sel:all">
+        </output>
+        <output outputSettingsName="aac"
+                defaultSelection="$app_DefaultSelectionString"
+                audioMix="stereo16">
+        </output>
+    </trackSettings>
+
+    <trackSettings input="AC3-stereo">
+        <output outputSettingsName="copy"
+                defaultSelection="$app_DefaultSelectionString,-sel:all">
+        </output>
+        <output outputSettingsName="aac"
+                defaultSelection="$app_DefaultSelectionString">
+        </output>
+    </trackSettings>
+    <trackSettings input="AC3-multi">
+        <output outputSettingsName="copy"
+                defaultSelection="$app_DefaultSelectionString,-sel:all">
+        </output>
+        <output outputSettingsName="aac"
+                defaultSelection="$app_DefaultSelectionString"
+                audioMix="stereo16">
+        </output>
+    </trackSettings>
+    <trackSettings input="EAC3-stereo">
+        <output outputSettingsName="copy"
+                defaultSelection="$app_DefaultSelectionString,-sel:all">
+        </output>
+        <output outputSettingsName="aac"
+                defaultSelection="$app_DefaultSelectionString">
+        </output>
+    </trackSettings>
+    <trackSettings input="EAC3-multi">
+        <output outputSettingsName="copy"
+                defaultSelection="$app_DefaultSelectionString,-sel:all">
+        </output>
+        <output outputSettingsName="aac"
+                defaultSelection="$app_DefaultSelectionString"
+                audioMix="stereo16">
+        </output>
+    </trackSettings>
+
+    <!-- Keep stereo AAC unchanged, add downmix for multichannel -->
+    <trackSettings input="AAC-stereo">
+        <output outputSettingsName="copy"
+                defaultSelection="$app_DefaultSelectionString">
+        </output>
+    </trackSettings>
+    <trackSettings input="AAC-multi">
+        <output outputSettingsName="copy"
+                defaultSelection="$app_DefaultSelectionString,-sel:all">
+        </output>
+        <output outputSettingsName="aac"
+                defaultSelection="$app_DefaultSelectionString"
+                audioMix="stereo16">
+        </output>
+    </trackSettings>
+</profile>
+

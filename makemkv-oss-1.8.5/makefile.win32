@@ -1,0 +1,25 @@
+
+!include makefile.common
+
+GLIBC_SRC=msvc/src/glibc/getopt.c msvc/src/glibc/getopt1.c msvc/src/glibc/getopt_win32.c
+
+CL=cl /Ox /GL /EHsc
+
+all: out\libdriveio.dll out\libmakemkv.dll
+
+clean:
+	del /q *.obj
+	IF NOT EXIST out mkdir out
+	del /q out\*
+
+out\libdriveio.dll:
+	IF NOT EXIST out mkdir out
+	$(CL) /Feout\libdriveio.dll /LD /Imsvc/inc $(LIBDRIVEIO_INC) $(LIBDRIVEIO_SRC) \
+	ws2_32.lib delayimp.lib /link /DELAYLOAD:ws2_32.dll /DEF:libdriveio/src/libdriveio.def
+
+out\libmakemkv.dll:
+	IF NOT EXIST out mkdir out
+	$(CL) /Feout\libmakemkv.dll /LD /Imsvc/inc $(LIBEBML_INC) $(LIBMATROSKA_INC) $(LIBMAKEMKV_INC) $(SSTRING_INC) \
+	$(LIBFFCODEC_INC) $(MAKEMKVGUI_INC) $(LIBABI_INC) \
+	$(LIBEBML_SRC) $(LIBMATROSKA_SRC) $(LIBMAKEMKV_SRC) $(GLIBC_SRC) $(LIBFFCODEC_SRC) \
+	/link /DEF:libmakemkv/src/libmakemkv.def

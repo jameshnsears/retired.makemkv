@@ -1,0 +1,49 @@
+diff --git a/makemkv-oss-1.8.5/makemkvgui/src/mainwnd.cpp b/makemkv-oss-1.8.5/makemkvgui/src/mainwnd.cpp
+index dc6e251..551efa5 100644
+--- a/makemkv-oss-1.8.5/makemkvgui/src/mainwnd.cpp
++++ b/makemkv-oss-1.8.5/makemkvgui/src/mainwnd.cpp
+@@ -123,6 +123,7 @@
+     app_prgtime = QStringFromUtf16(m_app->GetAppString(AP_vastr_ProgExpiration));
+     aboutAct->setEnabled(true);
+ 
++    // app_expired = false;  // stops expiry
+     app_expired = (*m_app->GetAppString(AP_vastr_ProgExpired) == 'y');
+ }
+ 
+@@ -196,21 +197,21 @@
+         SlotOnIdle();
+     }
+ 
+-    if (m_readstr_count>0)
+-    {
+-        m_readstr_count--;
+-        if (m_readstr_count==0)
+-        {
+-            ReadStrings();
+-            if (app_expired)
+-            {
+-                AppExpired();
+-                m_disable_onidle=true;
+-                close();
+-                return;
+-            }
+-        }
+-    }
++//    if (m_readstr_count>0)
++//    {
++//        m_readstr_count--;
++//        if (m_readstr_count==0)
++//        {
++//            ReadStrings();
++//            if (app_expired)
++//            {
++//                AppExpired();
++//                m_disable_onidle=true;
++//                close();
++//                return;
++//            }
++//        }
++//    }
+ 
+     if (false==m_entered_onidle)
+     {
